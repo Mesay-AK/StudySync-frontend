@@ -8,13 +8,11 @@ import {
   faTrashAlt,
   faCircleCheck,
   faHouse,
-  faComments,
   faFlag,
   faBook,
   faRightFromBracket,
   faChartBar,
   faGear,
-  faBell,
   faUser, 
   faInfoCircle,
   faPlus,
@@ -24,11 +22,12 @@ import DSideBar from '../../components/DSideBar';
 import { useNavigate, Link } from 'react-router-dom';
 import RoomDetailPage from './RoomDetailPage';
 import NotificationsDropdown from '../../components/NotificationsDropdown';
+import DashboardCard from '../../components/DashboardCard';
 
 const adminMenu = [
   { name: 'Home', href: '/admin/home', icon: <FontAwesomeIcon icon={faHouse} /> },
   { name: 'Users', href: '/admin/users', icon: <FontAwesomeIcon icon={faUsers} /> },
-  { name: 'Study Rooms', href: '/admin/study-rooms', icon: <FontAwesomeIcon icon={faComments} /> },
+  // { name: 'Study Rooms', href: '/admin/study-rooms', icon: <FontAwesomeIcon icon={faComments} /> },
   { name: 'Reports', href: '/admin/reports', icon: <FontAwesomeIcon icon={faFlag} /> },
   { name: 'Materials', href: '/admin/materials', icon: <FontAwesomeIcon icon={faBook} /> },
   { name: 'Analytics', href: '/admin/analytics', icon: <FontAwesomeIcon icon={faChartBar} /> },
@@ -131,7 +130,7 @@ const StudyRoomsManagement = () => {
       <DSideBar menuItems={adminMenu} title="StudyPlatform" />
       
       <main className="flex-1 bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900 text-white">
-        <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md p-4 border-b border-white/10">
+        <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md p-4 border-b border-white/10 mb-3">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
             <div className="flex-1 max-w-2xl">
               <div className="flex items-center bg-white/10 p-3 rounded-lg shadow">
@@ -155,64 +154,48 @@ const StudyRoomsManagement = () => {
           </div>
         </header>
 
-        <section className="max-w-7xl mx-auto p-6">
-          {/* Room Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 mb-6 mx-auto">
-            <div className="bg-blue-900/20 p-4 rounded-xl border border-blue-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faGlobe} />
-                Public Rooms
-              </h3>
-              <p className="text-2xl font-bold">
-                {rooms.filter(r => r.type === 'public').length}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Total public study rooms</p>
-            </div>
-            <div className="bg-purple-900/20 p-4 rounded-xl border border-purple-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faLock} />
-                Private Rooms
-              </h3>
-              <p className="text-2xl font-bold">
-                {rooms.filter(r => r.type === 'private').length}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Total private study rooms</p>
-            </div>
-            <div className="bg-green-900/20 p-4 rounded-xl border border-green-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faUsers} />
-                Active Users
-              </h3>
-              <p className="text-2xl font-bold">
-                {rooms.reduce((total, room) => total + (room.participants?.length || 0), 0)}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Currently in rooms</p>
-            </div>
-            <div className="bg-yellow-900/20 p-4 rounded-xl border border-yellow-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faCircleCheck} />
-                Active Rooms
-              </h3>
-              <p className="text-2xl font-bold">
-                {rooms.filter(r => r.isActive).length}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Currently active</p>
-            </div>
-            <div className="bg-red-900/20 p-4 rounded-xl border border-red-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faTimes} />
-                Inactive Rooms
-              </h3>
-              <p className="text-2xl font-bold">
-                {rooms.filter(r => !r.isActive).length}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Currently inactive</p>
-            </div>
+          <section className="max-w-7xl mx-auto p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <DashboardCard 
+                  title="Public Rooms" 
+                  value={rooms.filter(r => r.type === 'public').length} 
+                  change='+ All public Rooms'
+                  icon={<FontAwesomeIcon icon={faGlobe} />}
+                  color="blue"
+                  link="/admin/dashboard"
+                />
+
+                <DashboardCard 
+                  title="Private Rooms" 
+                  value={rooms.filter(r => r.type === 'private').length} 
+                  change='+ All private Rooms'
+                  icon={<FontAwesomeIcon icon={faLock} />}
+                  color="purple"
+                  link="/admin/dashboard"
+                />
+
+
+                <DashboardCard 
+                  title="Active Rooms" 
+                  value={rooms.filter(r => r.isActive).length}
+                  change='+ Active Rooms'
+                  icon={<FontAwesomeIcon icon={faCircleCheck} />}
+                  color="green"
+                  link="/admin/study-rooms"
+                />
+
+                <DashboardCard 
+                  title="Inactive Rooms" 
+                  value={rooms.filter(r => !r.isActive).length}
+                  change='+ Inactive Rooms'
+                  icon={<FontAwesomeIcon icon={faTimes} />}
+                  color="red"
+                  link="/admin/study-rooms"
+                />
           </div>
 
-          {/* Filters */}
-          <div className="bg-white/5 rounded-lg p-4 mb-6">
-            <div className="flex flex-wrap gap-4">
+          <h2 className="text-lg font-semibold">Filters</h2>
+            <div className="flex flex-wrap gap-3 md:gap-6 mb-7 bg-white/5 rounded-lg p-5 border border-white/10">
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
@@ -234,95 +217,98 @@ const StudyRoomsManagement = () => {
               </select>
 
               <button
-                className="ml-auto bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
+                className="ml-auto bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2"
               >
                 <FontAwesomeIcon icon={faPlus} />
                 Add New Room
               </button>
             </div>
-          </div>
 
-          {/* Study Rooms Table */}
-          <div className="bg-white/10 rounded-lg overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-800">
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                    Room Name
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                    Owner
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                    Participants
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
-                    Created
-                  </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Actions</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white/5 divide-y divide-gray-700">
-                {currentRooms.map((room) => (
-                  <tr 
-                    key={room.id} 
-                    className="hover:bg-white/5 cursor-pointer"
-                    onClick={() => viewRoomDetails(room.id)}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-white">{room.name}</div>
-                      <div className="text-sm text-gray-400">{room.description}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      {room.owner}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      {room.participants.length}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                        ${room.isActive ? 'bg-green-900/50 text-green-300' : 'bg-red-900/50 text-red-300'}`}
-                      >
-                        {room.isActive ? 'Active' : 'Inactive'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      {room.created}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2" onClick={(e) => e.stopPropagation()}>
-                        <button
-                          onClick={() => viewRoomDetails(room.id)}
-                          className="text-blue-400 hover:text-blue-300"
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                        </button>
-                        <button
-                          onClick={() => toggleRoomStatus(room.id)}
-                          className={`${room.isActive ? 'text-yellow-400 hover:text-yellow-300' : 'text-green-400 hover:text-green-300'}`}
-                        >
-                          <FontAwesomeIcon icon={room.isActive ? faTimes : faCircleCheck} />
-                        </button>
-                        <button
-                          onClick={() => deleteRoom(room.id)}
-                          className="text-red-400 hover:text-red-300"
-                        >
-                          <FontAwesomeIcon icon={faTrashAlt} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          
 
-            {/* Pagination */}
-            <div className="bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-700 sm:px-6">
+      <div className="bg-white/5 p-3 rounded-xl mb-6 border border-white/10 shadow-sm">
+      <table className="w-full text-left border-collapse">
+    <thead className="bg-stone-800/70 text-gray-300 text-sm tracking-wide" >
+          <tr>
+            <th scope="col" className="px-1 py-3 font-semibold text-gray-300 tracking-wider">Room Name</th>
+            <th scope="col" className="px-1 py-3 font-semibold text-gray-300 tracking-wider">Owner</th>
+            <th scope="col" className="hidden md:table-cell px-1 py-3  font-semibold text-gray-300 tracking-wider">Participants</th>
+            <th scope="col" className="hidden md:table-cell px-1 py-3  font-semibold text-gray-300 tracking-wider">Status</th>
+            <th scope="col" className="hidden md:table-cell px-1 py-3  font-semibold text-gray-300 tracking-wider">Created At</th>
+            <th scope="col" className="px-1 py-3  font-semibold text-gray-300 tracking-wider text-right">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody className="divide-y divide-stone-700/50 text-sm text-gray-300">
+      {currentRooms.map((room) => (
+        <tr
+          key={room.id}
+          className="hover:bg-stone-800/30 transition-colors cursor-pointer"
+          onClick={() => viewRoomDetails(room.id)}
+        >
+          <td className="px-1 py-4 whitespace-nowrap">
+            <div className="text-sm font-medium text-white">{room.name}</div>
+            <div className="hidden md:table-cell text-sm text-gray-400">{room.description}</div>
+          </td>
+
+          <td className="px-1 py-4 whitespace-nowrap text-sm text-gray-300">
+            {room.owner}
+          </td>
+
+          <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap text-sm text-gray-300 text-center">
+            {room.participants.length}
+          </td>
+
+          <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap">
+            <span
+              className={`px-1 py-1 inline-flex text-xs font-medium rounded-full 
+                ${room.isActive ? "bg-green-900/40 text-green-300" : "bg-red-900/40 text-red-300"}`}
+            >
+              {room.isActive ? "Active" : "Inactive"}
+            </span>
+          </td>
+
+          <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap text-sm text-gray-300">
+            {room.created}
+          </td>
+
+          <td className="px-1 py-4 whitespace-nowrap text-sm font-medium">
+            <div className="flex items-center space-x-3" onClick={(e) => e.stopPropagation()}>
+              <button
+                onClick={() => viewRoomDetails(room.id)}
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+                title="View Details"
+              >
+                <FontAwesomeIcon icon={faInfoCircle} />
+              </button>
+              <button
+                onClick={() => toggleRoomStatus(room.id)}
+                className={`transition-colors ${
+                  room.isActive
+                    ? "text-yellow-400 hover:text-yellow-300"
+                    : "text-green-400 hover:text-green-300"
+                }`}
+                title={room.isActive ? "Deactivate Room" : "Activate Room"}
+              >
+                <FontAwesomeIcon icon={room.isActive ? faTimes : faCircleCheck} />
+              </button>
+              <button
+                onClick={() => deleteRoom(room.id)}
+                className="text-red-400 hover:text-red-300 transition-colors"
+                title="Delete Room"
+              >
+                <FontAwesomeIcon icon={faTrashAlt} />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+
+            <div className="px-4 py-3 flex items-center justify-between border-t border-gray-700 sm:px-6">
               <div className="flex-1 flex justify-between sm:hidden">
                 <button
                   className="relative inline-flex items-center px-4 py-2 border border-gray-700 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700"
@@ -360,7 +346,7 @@ const StudyRoomsManagement = () => {
                 </div>
               </div>
             </div>
-          </div>
+          
         </section>
       </main>
     </div>

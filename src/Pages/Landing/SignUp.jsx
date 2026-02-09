@@ -1,6 +1,13 @@
 import BackButton from "../../components/BackButton";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+    const navigate = useNavigate();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        navigate("/user/dashboard");
+    };
 
     return (
         <>
@@ -15,7 +22,7 @@ function SignUp() {
                     
                 </div>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
 
                     <div>
                         <label htmlFor="userName"
@@ -23,8 +30,8 @@ function SignUp() {
                                 User Name
                         </label>
                         <input
-                            type="email"
-                            id="email"
+                            type="userName"
+                            id="userName"
                             className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
                             placeholder="Please Fill your Name"
                             required

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faBell,
   faUser,
   faSearch,
   // faFilter,
@@ -35,14 +34,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import DSideBar from '../../components/DSideBar';
 import NotificationsDropdown from '../../components/NotificationsDropdown';
-// import { adminMenu } from '../../Data/menuData';
-
+import DashboardCard from '../../components/DashboardCard';
 
 const adminMenu = [
   { name: 'Home', href: '/admin/home', icon: <FontAwesomeIcon icon={faHouse} /> },
   { name: 'Users', href: '/admin/users', icon: <FontAwesomeIcon icon={faUsers} /> },
   { name: 'Study Rooms', href: '/admin/study-rooms', icon: <FontAwesomeIcon icon={faComments} /> },
-  { name: 'Reports', href: '/admin/reports', icon: <FontAwesomeIcon icon={faFlag} /> },
+  // { name: 'Reports', href: '/admin/reports', icon: <FontAwesomeIcon icon={faFlag} /> },
   { name: 'Materials', href: '/admin/materials', icon: <FontAwesomeIcon icon={faBook} /> },
   { name: 'Analytics', href: '/admin/analytics', icon: <FontAwesomeIcon icon={faChartBar} /> },
     { name: 'Logout', href: '/logout', icon: <FontAwesomeIcon icon={faRightFromBracket} /> }
@@ -129,7 +127,6 @@ const mockReports = [
 ];
 
 const ReportsManagement = () => {
-  const navigate = useNavigate();
   const [reports, setReports] = useState(mockReports);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('all');
@@ -230,14 +227,14 @@ const ReportsManagement = () => {
   };
 
   return (
-    <div className="flex h-full">
-      <DSideBar menuItems={adminMenu} />
-      <main className="flex-1 bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900 text-white">
-        {/* Top Navigation */}
-        <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md p-4 border-b border-white/10">
-        
-          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between ml-12">
-            <div>
+        <div className="flex min-h-screen">
+          <DSideBar  menuItems={adminMenu} title="StudyPlatform" />
+          
+          <main className="flex-1 bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900 text-white">
+            {/* Top Navigation */}
+            <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md py-4 px-5 border-b border-white/10 mb-3">
+              <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 px-5 ">
+                  <div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">Reports Management</h1>
             </div>
             <ul className="flex items-center gap-8 mr-12">
@@ -250,54 +247,43 @@ const ReportsManagement = () => {
           </div>
         </header>
 
-        <section className="max-w-7xl mx-auto p-6">
-        <div className="p-6">
-          <div>
+          <section className="max-w-7xl mx-auto p-6">
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-
-            <div className="bg-blue-900/20 p-4 rounded-xl border border-blue-700 shadow-lg">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-white-500">Total Reports</p>
-                  <p className="text-2xl font-semibold">{totalReports}</p>
-                </div>
-                <div className="p-3 bg-[#E3F2FD] rounded-full">
-                  <FontAwesomeIcon icon={faFlag} className="text-[#2196F3] text-xl" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-purple-900/20 p-4 rounded-xl border border-purple-700">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-white-500">Pending Reports</p>
-                  <p className="text-2xl font-semibold">{pendingReports}</p>
-                </div>
-                <div className="p-3 bg-[#FFF3E0] rounded-full">
-                  <FontAwesomeIcon icon={faClock} className="text-[#FF9800] text-xl" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-green-900/20 p-4 rounded-xl border border-green-700">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-white">High Severity</p>
-                  <p className="text-2xl font-semibold">{highSeverityReports}</p>
-                </div>
-                <div className="p-3 bg-[#FFEBEE] rounded-full">
-                  <FontAwesomeIcon icon={faExclamationTriangle} className="text-[#F44336] text-xl" />
-                </div>
-              </div>
-            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              
 
 
-            <div className="bg-yellow-900/20 p-4 rounded-xl border border-yellow-700">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-white-500">Report Types</p>
-                  <div className="flex space-x-2">
+              <DashboardCard 
+                  title="Total Reports" 
+                  value={totalReports}
+                  change='+ All recorded Reports'
+                  icon={<FontAwesomeIcon icon={faFlag} />}
+                  color="green"
+                  link="/admin/reports"
+                />
+
+              <DashboardCard 
+                  title="Pending Reports" 
+                  value={pendingReports}
+                  change='+ All pending Reports'
+                  icon={<FontAwesomeIcon icon={faClock} />}
+                  color="purple"
+                  link="/admin/reports"
+                />
+
+
+            <DashboardCard 
+                  title="High Severity Reports" 
+                  value={highSeverityReports}
+                  change='+ All high severity Reports'
+                  icon={<FontAwesomeIcon icon={faExclamationTriangle} />}
+                  color="orange"
+                  link="/admin/reports"
+                />
+
+            <DashboardCard 
+                  title="Report Types" 
+                  value={<div className="flex space-x-2">
                     <span className="text-sm font-bold text-[#2196F3] px-2 py-1 rounded">
                       {userReports} Users
                     </span>
@@ -307,24 +293,22 @@ const ReportsManagement = () => {
                     <span className="text-sm font-bold text-[#9C27B0] px-2 py-1 rounded">
                       {materialReports} Materials
                     </span>
-                  </div>
-                </div>
-                <div className="p-3 bg-[#E3F2FD] rounded-full">
-                  <FontAwesomeIcon icon={faShieldAlt} className="text-[#2196F3] text-xl" />
-                </div>
-              </div>
-            </div>
+                  </div>}
+                  change='- All high severity Reports'
+                  icon={<FontAwesomeIcon icon={faShieldAlt} />}
+                  color="blue"
+                  link="/admin/reports"
+                />
 
       </div>
 
-    <div className='flex flex-column gap-4 mb-6 items-center'>
-    <div className="bg-white/10 p-4 rounded-xl border border-blue-500/20">
-      <div className="p-2">
-        <div className="flex gap-5">
+    <h2 className="text-lg font-semibold">Filters</h2>
+    <div className="flex flex-wrap gap-3 md:gap-6 mb-7 bg-white/5 rounded-lg p-5 border border-white/10">
+      
         <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
-          className="bg-white/10 text-white border border-white/20 rounded-md p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-white/10 text-white border border-white/20 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
             <option value="all">All Types</option>
             <option value="user">User Reports</option>
@@ -335,7 +319,7 @@ const ReportsManagement = () => {
           <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
-          className="bg-white/10 text-white border border-white/20 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
@@ -346,18 +330,15 @@ const ReportsManagement = () => {
           <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
-          className="bg-white/10 text-white border border-white/20 rounded-lg p-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
             <option value="all">All Severity</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
           </select>
-        </div>
-      </div>
-    </div>
 
-    <div className="flex-1 max-w-2xl">
+          <div className="flex-1 max-w-2xl">
               <div className="flex items-center bg-white/10 p-3 rounded-lg shadow">
                 <input 
                   type="text"
@@ -366,42 +347,40 @@ const ReportsManagement = () => {
                 />
                 <FontAwesomeIcon icon={faSearch} className="ml-2 h-5 w-5 text-blue-300" />
               </div>
-            </div>
-
+      </div>
     </div>
 
 
-      {/* Reports Table */}
-      <div className="bg-white/10 rounded-lg overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-700">
-          <thead className="bg-gray-800">
+      <div className="bg-white/5 p-3 rounded-xl mb-6 border border-white/10 shadow-sm">
+      <table className="w-full text-left border-collapse">
+      <thead className="bg-stone-800/70 text-gray-300 text-sm tracking-wide" >
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-1 py-3 font-semibold text-gray-300 tracking-wider">
                 Report Type
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="px-1 py-3 font-semibold text-gray-300 tracking-wider">
                 Reported By
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-1 py-3 font-semibold text-gray-300 tracking-wider">
                 Target
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-1 py-3 font-semibold text-gray-300 tracking-wider">
                 Status
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+              <th scope="col" className="hidden md:table-cell px-1 py-3 font-semibold text-gray-300 tracking-wider">
                 Date
               </th>
-              <th scope="col" className="relative px-6 py-3">
-                <span className="sr-only">Actions</span>
+              <th scope="col" className="relative px-1 py-3">
+                Actions
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white/5 divide-y divide-gray-700">
+          <tbody className="divide-y divide-stone-700/50 text-sm text-gray-300">
             {currentReports.map((report) => (
               <tr key={report.id} className="hover:bg-white/5 cursor-pointer" onClick={() => handleViewDetails(report)}>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-1 py-4 whitespace-nowrap">
                   <div className="flex items-center">
-                    <div className="flex-shrink-0 h-10 w-10">
+                    <div className="hidden md:table-cell flex-shrink-0 h-10 w-10">
                       <FontAwesomeIcon 
                         icon={report.type === 'user' ? faUser : report.type === 'room' ? faDoorOpen : faFile} 
                         className="h-6 w-6 text-gray-300"
@@ -413,14 +392,14 @@ const ReportsManagement = () => {
                     </div>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-1 py-4 whitespace-nowrap">
                   <div className="text-sm text-white">{report.reportedBy.name}</div>
                   <div className="text-sm text-gray-400">{report.reportedBy.email}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap">
                   <div className="text-sm text-white">{report.reason}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                     ${report.status === 'pending' ? 'bg-yellow-900/50 text-yellow-300' : ''}
                     ${report.status === 'investigating' ? 'bg-blue-900/50 text-blue-300' : ''}
@@ -429,10 +408,10 @@ const ReportsManagement = () => {
                     {report.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-white-500">
+                <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap text-sm text-white-500">
                   {new Date(report.createdAt).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                <td className="px-1 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
@@ -475,18 +454,20 @@ const ReportsManagement = () => {
           </tbody>
         </table>
 
-        {/* Pagination */}
-        <div className="bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-700 sm:px-6">
+        
+      </div>
+
+      <div className="text-gray-300 px-4 py-3 flex items-center justify-between  sm:px-1">
           <div className="flex-1 flex justify-between sm:hidden">
             <button
-              className="relative inline-flex items-center px-4 py-2 border border-gray-700 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700"
-              onClick={() => {/* Handle previous */}}
+              className="relative inline-flex items-center px-4 py-2 border border-gray-700 text-sm font-medium rounded-md text-gray-300 bg-stone-800/70 text-gray-300 hover:bg-gray-700"
+              onClick={() => {}}
             >
               Previous
             </button>
             <button
-              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-700 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700"
-              onClick={() => {/* Handle next */}}
+              className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-700 text-sm font-medium rounded-md text-gray-300 bg-stone-800/70 text-gray-300 hover:bg-gray-700"
+              onClick={() => {}}
             >
               Next
             </button>
@@ -501,20 +482,19 @@ const ReportsManagement = () => {
             <div className="flex gap-2">
               <button
                 className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 text-sm hover:bg-white/20 transition-colors"
-                onClick={() => {/* Handle previous */}}
+                onClick={() => {}}
               >
                 Previous
               </button>
               <button
                 className="bg-white/10 text-white border border-white/20 rounded-lg px-4 py-2 text-sm hover:bg-white/20 transition-colors"
-                onClick={() => {/* Handle next */}}
+                onClick={() => {}}
               >
                 Next
               </button>
             </div>
           </div>
         </div>
-      </div>
 
 
       {showWarningModal && selectedReport && (
@@ -608,11 +588,11 @@ const ReportsManagement = () => {
     </div>
   )}
 
-          </div>
 
-          </div>
           
         </section>
+
+        <section>
 
         {/* Report Details Modal */}
         {showDetailsModal && selectedReport && (
@@ -647,7 +627,6 @@ const ReportsManagement = () => {
                   </span>
                 </div>
 
-                {/* Reported Item */}
                 <div className="bg-white/5 rounded-lg p-4">
                   <h3 className="text-sm font-medium text-gray-300 mb-2">Reported Item</h3>
                   <div className="text-white">
@@ -664,7 +643,6 @@ const ReportsManagement = () => {
                   </div>
                 </div>
 
-                {/* Reporter */}
                 <div className="bg-white/5 rounded-lg p-4">
                   <h3 className="text-sm font-medium text-gray-300 mb-2">Reported By</h3>
                   <div className="text-white">
@@ -673,7 +651,6 @@ const ReportsManagement = () => {
                   </div>
                 </div>
 
-                {/* Report Details */}
                 <div className="bg-white/5 rounded-lg p-4">
                   <h3 className="text-sm font-medium text-gray-300 mb-2">Report Details</h3>
                   <div className="space-y-2">
@@ -698,7 +675,6 @@ const ReportsManagement = () => {
                   </div>
                 </div>
 
-                {/* Evidence */}
                 {selectedReport.evidence && selectedReport.evidence.length > 0 && (
                   <div className="bg-white/5 rounded-lg p-4">
                     <h3 className="text-sm font-medium text-gray-300 mb-2">Evidence</h3>
@@ -713,7 +689,6 @@ const ReportsManagement = () => {
                   </div>
                 )}
 
-                {/* Resolution (if resolved) */}
                 {selectedReport.status === 'resolved' && selectedReport.resolution && (
                   <div className="bg-white/5 rounded-lg p-4">
                     <h3 className="text-sm font-medium text-gray-300 mb-2">Resolution</h3>
@@ -721,7 +696,6 @@ const ReportsManagement = () => {
                   </div>
                 )}
 
-                {/* Action Buttons */}
                 <div className="flex justify-end gap-2 pt-4">
                   <button
                     onClick={() => setShowDetailsModal(false)}
@@ -745,6 +719,10 @@ const ReportsManagement = () => {
             </div>
           </div>
         )}
+
+    </section>
+
+
       </main>
     </div>
   );

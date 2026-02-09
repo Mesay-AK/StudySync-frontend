@@ -1,9 +1,9 @@
 import Header from '../../components/Header';
-
+import { Link } from 'react-router-dom';
 
 function Hero() {
   return (
-    <div className="hero relative h-screen bg-cover bg-center" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/src/assets/heroBg.jpg)' }}>
+    <div id="home" className="hero relative h-screen bg-cover bg-center" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/src/assets/heroBg.jpg)' }}>
       <Header/>
       
       <div className="absolute inset-14 flex items-center justify-end pr-12">
@@ -24,7 +24,7 @@ function Hero() {
             designed for collaborative learning.</p>
           </div>
           
-          <button className="
+          <Link to="/signup" className="
             border font-medium 
             hover:text-blue-300
             hover:border-blue-300
@@ -36,12 +36,13 @@ function Hero() {
             animate-fadeIn
           ">
             Get Started
-          </button>
+      
+          </Link>
         </div>
       </div>
       
       {/* Optional decorative elements */}
-      <div className="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
+      <a href='#description' className="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
           className="h-10 w-10 text-white" 
@@ -56,7 +57,7 @@ function Hero() {
             d="M19 14l-7 7m0 0l-7-7m7 7V3" 
           />
         </svg>
-      </div>
+      </a>
     </div>
   );
 }

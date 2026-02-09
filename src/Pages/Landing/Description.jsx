@@ -9,7 +9,7 @@ import {
 
 function Description() {
   return (
-    <div className="description min-h-screen bg-gradient-to-br from-stone-900 via-stone-500 to-stone-800 py-12 px-12">
+    <div id="description" className="description min-h-screen bg-gradient-to-br from-stone-900 via-stone-500 to-stone-8z00 py-12 px-12">
       <header className="text-center max-w-4xl mx-auto mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-blue-300 mb-4">
           How It Works

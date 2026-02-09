@@ -6,21 +6,8 @@ import {
   faInstagram, 
   faLinkedin 
 } from '@fortawesome/free-brands-svg-icons';
-import { useEffect } from 'react';
 
 function SideBar({ isOpen, onClose }) {
-  const handleClickOutside = (event) => {
-    if (isOpen && !event.target.closest('.sidebar')) {
-      onClose();
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, onClose]);
 
   return (
     <>
@@ -47,9 +34,10 @@ function SideBar({ isOpen, onClose }) {
 
         {/* Main Content */}
         <div className="sidebar-content">
-          <h2 className="text-2xl font-bold text-blue-300 mb-5 flex items-center">
-            StudySync
-          </h2>
+
+        <div className="text-blue-300 font-extrabold text-2xl whitespace-nowrap mx-auto mb-5">
+          Study<span className="text-blue-400">Sync</span>
+        </div>
           
           <ul className="space-y-4">
             <li>
@@ -64,7 +52,7 @@ function SideBar({ isOpen, onClose }) {
             </li>
             <li>
               <a 
-                href="#how-it-works" 
+                href="#description" 
                 className="flex items-center p-3 rounded-lg hover:bg-white/10 transition-colors duration-200"
                 onClick={onClose}
               >
@@ -74,7 +62,7 @@ function SideBar({ isOpen, onClose }) {
             </li>
             <li>
               <a 
-                href="#contact-us" 
+                href="#contact" 
                 className="flex items-center p-3 rounded-lg hover:bg-white/10 transition-colors duration-200"
                 onClick={onClose}
               >

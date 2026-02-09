@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faSearch,
   faGear,
-  faBell,
   faUser,
   faBook,
   faFileAlt,
@@ -15,8 +14,6 @@ import {
   faFileAudio,
   faFileCode,
   faFileArchive,
-  faTrashAlt,
-  faEdit,
   faDownload,
   faEye,
   faPlus,
@@ -27,10 +24,13 @@ import {
   faFlag,
   faRightFromBracket,
   faChartBar,
-  faTimes
+  faTimes,
+  faEdit,
+  faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 import DSideBar from '../../components/DSideBar';
 import NotificationsDropdown from '../../components/NotificationsDropdown.jsx';
+import DashboardCard from '../../components/DashboardCard.jsx';
 
 const adminMenu = [
   { name: 'Home', href: '/admin/home', icon: <FontAwesomeIcon icon={faHouse} /> },
@@ -86,7 +86,6 @@ const mockMaterials = [
 ];
 
 const MaterialsManagement = () => {
-  const navigate = useNavigate();
   const [materials, setMaterials] = useState(mockMaterials);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -192,18 +191,9 @@ const MaterialsManagement = () => {
       <main className="flex-1 bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900 text-white">
         <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md p-4 border-b border-white/10">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-            <div className="flex-1 max-w-2xl">
-              <div className="flex items-center bg-white/10 p-3 rounded-lg shadow">
-                <input 
-                  type="text"
-                  placeholder="Search materials..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full bg-transparent text-white placeholder-gray-300 focus:outline-none" 
-                />
-                <FontAwesomeIcon icon={faSearch} className="ml-2 h-5 w-5 text-blue-300" />
-              </div>
-            </div>
+              <div>
+                    <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">Materials Management</h1>
+                  </div>
             <ul className="flex items-center gap-8 mr-12">
               <li><a href="/admin/settings" className="hover:text-blue-400"><FontAwesomeIcon icon={faGear} /></a></li>
               <li>
@@ -215,92 +205,104 @@ const MaterialsManagement = () => {
         </header>
 
         <section className="max-w-7xl mx-auto p-6">
-          {/* Material Statistics */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6 mx-auto">
-            <div className="bg-blue-900/20 p-4 rounded-xl border border-blue-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faBook} />
-                Total Materials
-              </h3>
-              <p className="text-2xl font-bold">{materials.length}</p>
-              <p className="text-sm text-gray-300 mt-1">Available resources</p>
-            </div>
-            <div className="bg-purple-900/20 p-4 rounded-xl border border-purple-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faDownload} />
-                Total Downloads
-              </h3>
-              <p className="text-2xl font-bold">
-                {materials.reduce((acc, material) => acc + material.downloads, 0)}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Across all materials</p>
-            </div>
-            <div className="bg-green-900/20 p-4 rounded-xl border border-green-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faEye} />
-                Total Views
-              </h3>
-              <p className="text-2xl font-bold">
-                {materials.reduce((acc, material) => acc + material.views, 0)}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Material views</p>
-            </div>
-            <div className="bg-yellow-900/20 p-4 rounded-xl border border-yellow-700">
-              <h3 className="text-lg font-medium mb-2 flex items-center gap-2">
-                <FontAwesomeIcon icon={faFileAlt} />
-                Categories
-              </h3>
-              <p className="text-2xl font-bold">
-                {new Set(materials.map(m => m.category)).size}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Unique categories</p>
-            </div>
-          </div>
 
-          {/* Filters and Controls */}
-          <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
-            <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <DashboardCard 
+                  title="Total Materials" 
+                  value={materials.length} 
+                  change="+Needs Review"
+                  icon={<FontAwesomeIcon icon={faBook} />}
+                  color="blue"
+                  link="/admin/materials"
+                />
+
+
+            <DashboardCard 
+                  title="Total Downloads" 
+                  value={materials.reduce((acc, material) => acc + material.downloads, 0)} 
+                  change="+Accross all materials"
+                  icon={<FontAwesomeIcon icon={faDownload} />}
+                  color="orange"
+                  link="/admin/materials"
+                />
+                
+            <DashboardCard 
+                  title="Total Material Viewd" 
+                  value={materials.reduce((acc, material) => acc + material.views, 0)} 
+                  change="+Accross all materials"
+                  icon={<FontAwesomeIcon icon={faEye} />}
+                  color="green"
+                  link="/admin/materials"
+                />
+
+            <DashboardCard 
+                  title="Categories" 
+                  value={new Set(materials.map(m => m.category)).size} 
+                  change="+Unique categories"
+                  icon={<FontAwesomeIcon icon={faFileAlt} />}
+                  color="purple"
+                  link="/admin/materials"
+                />
+
+        </div>
+            <div>
+              <h2 className="text-lg font-semibold">Filters</h2>
+            <div className="flex flex-wrap gap-3 md:gap-6 mb-7 bg-white/5 rounded-lg p-5 border border-white/10">
+
+
+              <div className="flex items-center bg-white/5 p-1 rounded-lg">
                 <FontAwesomeIcon icon={faFilter} className="text-blue-300" />
                 <select
-                  className="bg-transparent text-white focus:outline-none"
+                  className="bg-transparent focus:outline-none cursor-pointer text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:text-black-300 focus:border-blue-500"
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
                 >
-                  <option value="all">All Types</option>
-                  <option value="pdf">PDF</option>
-                  <option value="doc">Document</option>
-                  <option value="pptx">Presentation</option>
-                  <option value="mp4">Video</option>
-                  <option value="mp3">Audio</option>
+                  <option className="bg-stone-800/80" value="all">All Types</option>
+                  <option className="bg-stone-800/80" value="pdf">PDF</option>
+                  <option className="bg-stone-800/80" value="doc">Document</option>
+                  <option className="bg-stone-800/80" value="pptx">Presentation</option>
+                  <option className="bg-stone-800/80" value="mp4">Video</option>
+                  <option className="bg-stone-800/80" value="mp3">Audio</option>
                 </select>
               </div>
               
-              <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
+              <div className="flex items-center  bg-white/5 p-1 rounded-lg">
                 <FontAwesomeIcon icon={faFilter} className="text-blue-300" />
                 <select
-                  className="bg-transparent text-white focus:outline-none"
+                  className="bg-transparent focus:outline-none cursor-pointer text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:text-black-300 focus:border-blue-500"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
                 >
-                  <option value="all">All Categories</option>
+                  <option className="bg-stone-800/80" value="all">All Categories</option>
                   {Array.from(new Set(materials.map(m => m.category))).map(category => (
-                    <option key={category} value={category}>{category}</option>
+                    <option className="bg-stone-800/80" key={category} value={category}>{category}</option>
                   ))}
                 </select>
               </div>
+              <div className="flex-1 max-w-2xl">
+              <div className="flex items-center bg-white/10 p-3 rounded-lg shadow">
+                <input 
+                  type="text"
+                  placeholder="Search materials..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-transparent text-white placeholder-gray-300 focus:outline-none" 
+                />
+                <FontAwesomeIcon icon={faSearch} className="ml-2 h-5 w-5 text-blue-300" />
+              </div>
             </div>
-
-            <button 
+              <button 
               onClick={() => setShowUploadForm(!showUploadForm)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md flex items-center gap-2"
+              className="bg-blue-300 hover:bg-blue-500 text-black px-4 py-2 rounded-md flex items-center sm:w-auto"
             >
               <FontAwesomeIcon icon={showUploadForm ? faTimes : faPlus} />
               {showUploadForm ? 'Cancel' : 'Upload Material'}
             </button>
+            </div>
+
+
           </div>
 
-          {/* Upload Form */}
           {showUploadForm && (
             <div className="bg-blue-900/10 p-6 rounded-xl mb-6 border border-blue-900/20">
               <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
@@ -336,13 +338,13 @@ const MaterialsManagement = () => {
                     name="type"
                     value={newMaterial.type}
                     onChange={handleInputChange}
-                    className="w-full bg-white/10 border border-white/20 rounded-md p-2 text-white focus:outline-none focus:ring-1 focus:ring-blue-300"
+                    className="bg-transparent focus:outline-none cursor-pointer text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:text-black-300 focus:border-blue-500"
                   >
-                    <option value="pdf">PDF</option>
-                    <option value="doc">Document</option>
-                    <option value="pptx">Presentation</option>
-                    <option value="mp4">Video</option>
-                    <option value="mp3">Audio</option>
+                    <option  className="bg-stone-800/80" value="pdf">PDF</option>
+                    <option  className="bg-stone-800/80" value="doc">Document</option>
+                    <option  className="bg-stone-800/80" value="pptx">Presentation</option>
+                    <option  className="bg-stone-800/80" value="mp4">Video</option>
+                    <option  className="bg-stone-800/80" value="mp3">Audio</option>
                   </select>
                 </div>
                 <div>
@@ -377,38 +379,37 @@ const MaterialsManagement = () => {
             </div>
           )}
 
-          {/* Materials Table */}
-          <div className="bg-white/10 rounded-lg overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-700">
-              <thead className="bg-gray-800">
+          <div className="bg-white/5 w-full p-1 rounded-xl mb-6 border border-white/10 shadow-sm">
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-stone-800/70 text-gray-300 text-sm uppercase tracking-wide">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  <th scope="col" className="px-3 py-3 ">
                     Title
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  <th scope="col" className="hidden md:table-cell px-1 py-3 ">
                     Type
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  <th scope="col" className="hidden md:table-cell px-1 py-3 ">
                     Uploaded By
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  <th scope="col" className="hidden md:table-cell px-1 py-3 ">
                     Status
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                  <th scope="col" className="hidden md:table-cell px-1 py-3 ">
                     Upload Date
                   </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Actions</span>
+                  <th scope="col" className="relative px-1 py-3">
+                    Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white/5 divide-y divide-gray-700">
+              <tbody className="divide-y divide-stone-700/50 text-sm text-gray-300">
                 {currentMaterials.map(material => (
                   <tr key={material.id} className="hover:bg-white/5">
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-1 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium">{material.name}</div>
-                      <div className="text-sm text-gray-400">{material.description}</div>
-                      <div className="flex flex-wrap gap-2 mt-1">
+                      <div className="text-sm text-gray-400 whitespace-normal break-words">{material.description}</div>
+                      <div className="flex flex-wrap gap-1 mt-1">
                         {material.tags.map((tag, index) => (
                           <span
                             key={index}
@@ -419,19 +420,18 @@ const MaterialsManagement = () => {
                         ))}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <FontAwesomeIcon icon={getFileTypeIcon(material.type)} className="text-blue-300" />
                         <span className="text-sm">{material.type.toUpperCase()}</span>
                       </div>
                       <div className="text-sm text-gray-400">{material.size}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap">
                       <div className="text-sm">{material.uploadedBy}</div>
-                      <div className="text-sm text-gray-400">{material.uploadDate}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center gap-4">
+                    <td className="hidden md:table-cell px-1 py-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
                         <div className="text-center">
                           <div className="text-sm font-medium">{material.downloads}</div>
                           <div className="text-xs text-gray-400">Downloads</div>
@@ -442,21 +442,24 @@ const MaterialsManagement = () => {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <td>
+                      <div className="hidden md:table-cell text-center text-sm text-gray-400">{material.uploadDate}</div>
+                    </td>
+                    <td className=" py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                       <button 
-                        className="p-2 rounded-lg bg-blue-500/10 hover:bg-blue-600/20 text-blue-300"
+                        className="hidden md:table-cell rounded-lg bg-blue-500/10 hover:bg-blue-600/20 text-blue-300"
                         title="View"
                       >
                         <FontAwesomeIcon icon={faEye} />
                       </button>
                       <button 
-                        className="p-2 rounded-lg bg-green-500/10 hover:bg-green-600/20 text-green-300"
+                        className="hidden md:table-cell rounded-lg bg-green-500/10 hover:bg-green-600/20 text-green-300"
                         title="Download"
                       >
                         <FontAwesomeIcon icon={faDownload} />
                       </button>
                       <button 
-                        className="p-2 rounded-lg bg-yellow-500/10 hover:bg-yellow-600/20 text-yellow-300"
+                        className=" rounded-lg bg-yellow-500/10 hover:bg-yellow-600/20 text-yellow-300"
                         title="Edit"
                       >
                         <FontAwesomeIcon icon={faEdit} />
@@ -474,8 +477,7 @@ const MaterialsManagement = () => {
               </tbody>
             </table>
 
-            {/* Pagination */}
-            <div className="bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-700 sm:px-6">
+            {/* <div className="bg-gray-800 px-4 py-3 flex items-center justify-between border-t border-gray-700 sm:px-6">
               <div className="flex-1 flex justify-between sm:hidden">
                 <button
                   className="relative inline-flex items-center px-4 py-2 border border-gray-700 text-sm font-medium rounded-md text-gray-300 bg-gray-800 hover:bg-gray-700"
@@ -517,8 +519,12 @@ const MaterialsManagement = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
+
+
           </div>
+
+
         </section>
       </main>
     </div>

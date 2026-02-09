@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUsers,
   faComments,
   faBook,
   faChartLine,
-  // faExclamationTriangle,
-  // faClock,
-  // faUserPlus,
-  // faUserMinus,
-  // faGraduationCap,
-  // faCalendarAlt,
-  // faClock ,
-  // faStar,
-  // faThumbsUp,
-  // faMessage,
-  // faDownload,
-  // faUpload,
+  faUser,
+  faGear,
   faFlag,
-  // faShieldAlt,
-  faChartBar,
   faHouse,
   faRightFromBracket,
-  // faChartPie,
-  // faChartArea,
   faArrowUp
-  // faArrowDown,
-  // faEquals
+
 } from '@fortawesome/free-solid-svg-icons';
 import DSideBar from '../../components/DSideBar';
 import { Line, Bar, Pie, Doughnut } from 'react-chartjs-2';
@@ -44,6 +29,7 @@ import {
   Filler,
 
 } from 'chart.js';
+import NotificationsDropdown from '../../components/NotificationsDropdown';
 
 
 const adminMenu = [
@@ -52,7 +38,7 @@ const adminMenu = [
   { name: 'Study Rooms', href: '/admin/study-rooms', icon: <FontAwesomeIcon icon={faComments} /> },
   { name: 'Reports', href: '/admin/reports', icon: <FontAwesomeIcon icon={faFlag} /> },
   { name: 'Materials', href: '/admin/materials', icon: <FontAwesomeIcon icon={faBook} /> },
-  { name: 'Analytics', href: '/admin/analytics', icon: <FontAwesomeIcon icon={faChartBar} /> },
+
     { name: 'Logout', href: '/logout', icon: <FontAwesomeIcon icon={faRightFromBracket} /> }
 ];
 
@@ -281,10 +267,26 @@ const Analytics = () => {
       <DSideBar menuItems={adminMenu} title="StudyPlatform"/>
       
       <main className="flex-1 bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900 text-white">
+
+      <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md py-4 px-5 border-b border-white/10 mb-3">
+            <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 px-5 ">
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">Analytics Management</h1>
+            </div>
+            
+            <ul className="flex items-center gap-8 mr-12">
+              <li><a href="/admin/settings" className="hover:text-blue-400"><FontAwesomeIcon icon={faGear} /></a></li>
+              <li>
+                <NotificationsDropdown />
+              </li>
+              <li><a href="/admin/user-profile" className="hover:text-blue-400"><FontAwesomeIcon icon={faUser} /></a></li>
+            </ul>
+        </div>
+      </header>
+    
         <div className="max-w-6xl mx-auto p-4">
-          {/* Header */}
           <div className="mb-4">
-            <h1 className="text-2xl font-bold text-white mb-2">Analytics Dashboard</h1>
+            
             <div className="flex gap-4">
               <select
                 value={dateRange}

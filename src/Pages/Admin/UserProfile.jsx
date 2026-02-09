@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  // faUser,
   faEnvelope,
-  // faPhone,
   faCalendarAlt,
-  // faMapMarkerAlt,
   faGraduationCap,
   faBook,
   faClock,
   faChartLine,
   faEdit,
   faCamera,
-  // faBell,
   faShieldAlt,
   faLock,
   faSignOutAlt,
   faCog,
-  // faHistory,
   faStar,
   faUsers,
   faDoorOpen,

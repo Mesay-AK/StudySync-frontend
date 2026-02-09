@@ -1,6 +1,14 @@
 import BackButton from "../../components/BackButton";
+import { useNavigate } from "react-router-dom";
 
 function LogIn() {
+    const navigate = useNavigate();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        navigate("/user/dashboard");
+    };
+
     return (
         <div>
             <BackButton/>
@@ -12,7 +20,7 @@ function LogIn() {
                     <p className="text-blue-100">Please enter your credentials to access your account</p>
                 </div>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     {/* Email Field */}
                     <div>
                         <label htmlFor="email" className="block text-white text-sm font-medium mb-2">

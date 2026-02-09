@@ -64,7 +64,7 @@ export default function ActivityChart() {
           color: 'rgba(255, 255, 255, 0.1)'
         },
         ticks: {
-          color: '#94a3b8'
+          color: '#aac5ebff'
         }
       },
       x: {
@@ -72,7 +72,7 @@ export default function ActivityChart() {
           color: 'rgba(255, 255, 255, 0.1)'
         },
         ticks: {
-          color: '#94a3b8'
+          color: '#aac5ebff'
         }
       }
     }

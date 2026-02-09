@@ -14,8 +14,7 @@ import {
   faUserCheck,
   faRightFromBracket,
   faChartBar,
-  faUserClock,
-  faFilter
+  faUserClock
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import DSideBar from '../../components/DSideBar';
@@ -35,7 +34,7 @@ const adminMenu = [
 
 
 
-function UsersPage() {
+function User() {
 
 const [users, setUsers] = useState([
     {
@@ -139,19 +138,27 @@ const [users, setUsers] = useState([
           
           <main className="flex-1 bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900 text-white">
             {/* Top Navigation */}
-            <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md py-4 px-5 border-b border-white/10 mb-3">
-              <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 px-5 ">
-                  <div>
-                    <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">Users Management</h1>
+            <header className="sticky top-0 z-40 bg-stone-700/60 backdrop-blur-md p-4 border-b border-white/10 mb-3">
+              <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+                <div className="flex-1 max-w-2xl">
+                  <div className="flex items-center bg-white/10 p-3 rounded-lg shadow">
+                    <input 
+                      type="text"
+                      placeholder="Search Users..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full bg-transparent text-white placeholder-gray-300 focus:outline-none" 
+                    />
+                    <FontAwesomeIcon icon={faSearch} className="ml-2 h-5 w-5 text-blue-300" />
                   </div>
-                  
-                  <ul className="flex items-center gap-8 mr-12">
-                    <li><a href="/admin/settings" className="hover:text-blue-400"><FontAwesomeIcon icon={faGear} /></a></li>
-                    <li>
-                      <NotificationsDropdown />
-                    </li>
-                    <li><a href="/admin/user-profile" className="hover:text-blue-400"><FontAwesomeIcon icon={faUser} /></a></li>
-                  </ul>
+                </div>
+                <ul className="flex items-center gap-8 mr-12">
+                  <li><a href="/admin/settings" className="hover:text-blue-400"><FontAwesomeIcon icon={faGear} /></a></li>
+                  <li>
+                    <NotificationsDropdown />
+                  </li>
+                  <li><a href="/admin/user-profile" className="hover:text-blue-400"><FontAwesomeIcon icon={faUser} /></a></li>
+                </ul>
               </div>
             </header>
     
@@ -198,59 +205,33 @@ const [users, setUsers] = useState([
               <h2 className="text-lg font-semibold">Filters</h2>
             <div className="flex flex-wrap gap-3 md:gap-6 mb-7 bg-white/5 rounded-lg p-5 border border-white/10">
 
-              <div className='flex items-center gap-2 bg-white/5 p-3 rounded-lg'>
-                <FontAwesomeIcon icon={faFilter} className="text-blue-300" />
                 <select
                     value={filters.status}
                     onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                    className="bg-transparent focus:outline-none cursor-pointer text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:text-black-300 focus:border-blue-500">
-                    <option className="bg-stone-800/80" value="">All Status</option>
-                    <option className="bg-stone-800/80" value="active">Active</option>
-                    <option className="bg-stone-800/80" value="inactive">Inactive</option>
-                    <option className="bg-stone-800/80" value="banned">Banned</option>
+                    className="bg-white/10 border border-stone-600 text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="banned">Banned</option>
                 </select>
-
-                </div>
-
-                <div className='flex items-center gap-2 bg-white/5 p-3 rounded-lg'>
-                  <FontAwesomeIcon icon={faFilter} className="text-blue-300" />
-                  <select
-                      value={filters.role}
-                      onChange={(e) => setFilters({ ...filters, role: e.target.value })}
-                      className="bg-transparent focus:outline-none cursor-pointer text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:text-black-300 focus:border-blue-500">
-                      <option className="bg-stone-800/80"  value="">All Roles</option>
-                    <option className="bg-stone-800/80"  value="student">Student</option>
-                    <option className="bg-stone-800/80"  value="instructor">Instructor</option>
-                    <option className="bg-stone-800/80"  value="admin">Admin</option>
+                <select
+                    value={filters.role}
+                    onChange={(e) => setFilters({ ...filters, role: e.target.value })}
+                    className="bg-white/10 border border-stone-600 text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">All Roles</option>
+                    <option value="student">Student</option>
+                    <option value="instructor">Instructor</option>
+                    <option value="admin">Admin</option>
                 </select>
-                </div>
-
-                <div className='flex items-center gap-2 bg-white/5 p-3 rounded-lg '>
-                  <FontAwesomeIcon icon={faFilter} className="text-blue-300" />
-                  <select
-                      value={filters.sortBy}
-                      onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
-                      className="bg-transparent focus:outline-none cursor-pointer text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:text-black-300 focus:border-blue-500">
-                      <option className="bg-stone-800/80"  value="">All</option>
-                    <option className="bg-stone-800/80"  value="name">Name</option>
-                    <option className="bg-stone-800/80"  value="date">Join Date</option>
-                    <option className="bg-stone-800/80"  value="status">Status</option>
+                <select
+                    value={filters.sortBy}
+                    onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
+                    className="bg-white/10 border border-stone-600 text-gray-200 text-sm rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">All</option>
+                    <option value="name">Name</option>
+                    <option value="date">Join Date</option>
+                    <option value="status">Status</option>
                 </select>
-
-                </div>
-
-                <div className="flex-1 max-w-2xl">
-                  <div className="flex items-center bg-white/10 p-3 rounded-lg shadow">
-                    <input 
-                      type="text"
-                      placeholder="Search Users..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full bg-transparent text-white placeholder-gray-300 focus:outline-none" 
-                    />
-                    <FontAwesomeIcon icon={faSearch} className="ml-2 h-5 w-5 text-blue-300" />
-                  </div>
-                </div>
 
             </div>
 
@@ -385,4 +366,4 @@ const [users, setUsers] = useState([
     };
 
 
-export default UsersPage
+export default User;

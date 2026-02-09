@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+
 import {
   faBell,
   faLock,
@@ -18,12 +20,13 @@ import {
   faTrash,
   faHistory
 } from '@fortawesome/free-solid-svg-icons';
-import DSideBar from '../../components/DSideBar';
 
 const Settings = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('account');
   const [showPassword, setShowPassword] = useState(false);
   const [theme, setTheme] = useState('dark');
+  
   const [notifications, setNotifications] = useState({
     email: true,
     push: true,
@@ -71,7 +74,6 @@ const Settings = () => {
 
   return (
     <div className="flex h-screen bg-gradient-to-br from-stone-800 via-stone-600 to-stone-900">
-      <DSideBar />
       
       <main className="flex-1 overflow-auto">
         <div className="max-w-7xl mx-auto p-6">
@@ -83,83 +85,81 @@ const Settings = () => {
             </button>
           </div>
 
-          <div className="grid grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
             {/* Settings Navigation */}
             <div className="col-span-1">
-              <div className="bg-white/10 rounded-lg p-4">
+              {/* Mobile Dropdown */}
+              <div className="md:hidden mb-4">
+                <button
+                  onClick={() => setIsNavOpen(!isNavOpen)}
+                  className="w-full flex justify-between items-center px-4 py-2 bg-white/10 text-white rounded-lg"
+                >
+                  <span className="font-medium capitalize">{activeSection}</span>
+                  <FontAwesomeIcon icon={isNavOpen ? faChevronUp : faChevronDown} />
+                </button>
+
+                {isNavOpen && (
+                  <div className="mt-2 bg-white/10 rounded-lg p-2 space-y-2">
+                    {[
+                      ['account', faUser, 'Account'],
+                      ['notifications', faBell, 'Notifications'],
+                      ['privacy', faShieldAlt, 'Privacy'],
+                      ['appearance', faPalette, 'Appearance'],
+                      ['language', faLanguage, 'Language'],
+                      ['data', faDownload, 'Data & Privacy'],
+                    ].map(([key, icon, label]) => (
+                      <button
+                        key={key}
+                        onClick={() => {
+                          setActiveSection(key);
+                          setIsNavOpen(false);
+                        }}
+                        className={`w-full px-4 py-2 rounded-lg flex items-center ${
+                          activeSection === key
+                            ? 'bg-blue-500 text-white'
+                            : 'text-gray-300 hover:bg-white/10'
+                        }`}
+                      >
+                        <FontAwesomeIcon icon={icon} className="mr-3" />
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* large screens Sidebar */}
+              <div className="hidden md:block bg-white/10 rounded-lg p-4">
                 <nav className="space-y-2">
-                  <button
-                    onClick={() => setActiveSection('account')}
-                    className={`w-full px-4 py-2 rounded-lg flex items-center ${
-                      activeSection === 'account'
-                        ? 'bg-blue-500 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faUser} className="mr-3" />
-                    Account
-                  </button>
-                  <button
-                    onClick={() => setActiveSection('notifications')}
-                    className={`w-full px-4 py-2 rounded-lg flex items-center ${
-                      activeSection === 'notifications'
-                        ? 'bg-blue-500 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faBell} className="mr-3" />
-                    Notifications
-                  </button>
-                  <button
-                    onClick={() => setActiveSection('privacy')}
-                    className={`w-full px-4 py-2 rounded-lg flex items-center ${
-                      activeSection === 'privacy'
-                        ? 'bg-blue-500 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faShieldAlt} className="mr-3" />
-                    Privacy
-                  </button>
-                  <button
-                    onClick={() => setActiveSection('appearance')}
-                    className={`w-full px-4 py-2 rounded-lg flex items-center ${
-                      activeSection === 'appearance'
-                        ? 'bg-blue-500 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faPalette} className="mr-3" />
-                    Appearance
-                  </button>
-                  <button
-                    onClick={() => setActiveSection('language')}
-                    className={`w-full px-4 py-2 rounded-lg flex items-center ${
-                      activeSection === 'language'
-                        ? 'bg-blue-500 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faLanguage} className="mr-3" />
-                    Language
-                  </button>
-                  <button
-                    onClick={() => setActiveSection('data')}
-                    className={`w-full px-4 py-2 rounded-lg flex items-center ${
-                      activeSection === 'data'
-                        ? 'bg-blue-500 text-white'
-                        : 'text-gray-300 hover:bg-white/10'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faDownload} className="mr-3" />
-                    Data & Privacy
-                  </button>
+                  {[
+                    ['account', faUser, 'Account'],
+                    ['notifications', faBell, 'Notifications'],
+                    ['privacy', faShieldAlt, 'Privacy'],
+                    ['appearance', faPalette, 'Appearance'],
+                    ['language', faLanguage, 'Language'],
+                    ['data', faDownload, 'Data & Privacy'],
+                  ].map(([key, icon, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => setActiveSection(key)}
+                      className={`w-full px-4 py-2 rounded-lg flex items-center ${
+                        activeSection === key
+                          ? 'bg-blue-500 text-white'
+                          : 'text-gray-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <FontAwesomeIcon icon={icon} className="mr-3" />
+                      {label}
+                    </button>
+                  ))}
                 </nav>
               </div>
             </div>
 
+
             {/* Settings Content */}
-            <div className="col-span-3">
+            <div className="col-span-2">
               <div className="bg-white/10 rounded-lg p-6">
                 {/* Account Settings */}
                 {activeSection === 'account' && (

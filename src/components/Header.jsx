@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import SideBar from './SideBar.jsx';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 function Header() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -25,23 +27,29 @@ function Header() {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden lg:flex items-center space-x-8">
-                    <button className="text-lg font-medium hover:text-blue-300 transition-colors duration-300">
+                    <a className="text-lg font-medium hover:text-blue-300 transition-colors duration-300 cursor-pointer" href="#home">
                         Home
-                    </button>
-                    <button className="text-lg font-medium hover:text-blue-300 transition-colors duration-300">
+                    </a>
+                    <a className="text-lg font-medium hover:text-blue-300 transition-colors duration-300 cursor-pointer" href="#description">
                         How It Works
-                    </button>
-                    <button className="text-lg font-medium hover:text-blue-300 transition-colors duration-300">
+                    </a>
+                    <a className="text-lg font-medium hover:text-blue-300 transition-colors duration-300 cursor-pointer" href="#contact">
                         Contact Us
-                    </button>
+                    </a>
                     
                     <div className="flex space-x-4 ml-8">
-                        <button className="border border-blue-400 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-400/10 transition-colors duration-300">
+                        <Link
+                            to="/login"
+                            className="border border-blue-400 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-400/10 transition-colors duration-300"
+                        >
                             Login
-                        </button>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 shadow-md">
+                        </Link>
+                        <Link
+                            to="/signup"
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors duration-300 shadow-md"
+                        >
                             Get Started
-                        </button>
+                        </Link>
                     </div>
                 </nav>
 

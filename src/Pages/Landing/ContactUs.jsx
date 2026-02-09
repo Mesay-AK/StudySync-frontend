@@ -9,7 +9,7 @@ import Footer from '../../components/Footer';
 function ContactUs() {
   return (
     <>
-    <div className="min-h-screen bg-gradient-to-br from-stone-700 via-stone-400 to-stone-800 py-12 px-4 sm:px-12">
+    <div id="contact" className="contact min-h-screen bg-gradient-to-br from-stone-700 via-stone-400 to-stone-800 py-12 px-4 sm:px-12">
       <header className="text-center max-w-2xl mx-auto mb-12">
         <h1 className="text-3xl md:text-4xl font-bold text-blue-300 mb-3">
           Contact Us
